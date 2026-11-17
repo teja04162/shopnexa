@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: shopnexa-api
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/shopnexa?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${SPRING_DATASOURCE_USERNAME:shopnexa}
+    password: ${SPRING_DATASOURCE_PASSWORD:change-me-locally}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  jackson:
+    time-zone: UTC
+
+server:
+  port: ${SERVER_PORT:8080}
+
+app:
+  frontend-origin: ${FRONTEND_ORIGIN:http://localhost:5173}
+  delivery:
+    flat-charge: ${DELIVERY_FLAT_CHARGE:50.00}
+    free-threshold: ${FREE_DELIVERY_THRESHOLD:1000.00}
+  payment:
+    razorpay-key-id: ${RAZORPAY_KEY_ID:}
+    razorpay-key-secret: ${RAZORPAY_KEY_SECRET:}
+  jwt:
+    secret: ${JWT_SECRET:bG9jYWwtb25seS1zaG9wbmV4YS1qd3Qta2V5LTMyaHl0ZXM=}
+    expiration-ms: ${JWT_EXPIRATION_MS:900000}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never

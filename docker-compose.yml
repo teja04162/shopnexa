@@ -1,0 +1,21 @@
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-shopnexa}
+      MYSQL_USER: ${MYSQL_USER:-shopnexa}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-change-me-locally}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change-root-me-locally}
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - shopnexa-mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p$${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  shopnexa-mysql:
